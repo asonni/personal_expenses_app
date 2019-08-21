@@ -1,4 +1,4 @@
-package com.example.personal_expenses_app;
+package ly.aladdin.personal_expenses;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
