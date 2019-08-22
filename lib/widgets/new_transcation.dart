@@ -68,11 +68,13 @@ class _NewTranscationState extends State<NewTranscation> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               AdaptiveTextField(
+                activeAdaptive: false,
                 labelText: 'Title',
                 controller: _titleController,
                 onSubmitted: (_) => _submitData(),
               ),
               AdaptiveTextField(
+                activeAdaptive: false,
                 labelText: 'Amount',
                 controller: _amountController,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),

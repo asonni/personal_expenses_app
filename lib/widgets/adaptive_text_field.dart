@@ -4,12 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AdaptiveTextField extends StatelessWidget {
+  final bool activeAdaptive;
   final String labelText;
   final TextEditingController controller;
   final TextInputType keyboardType;
   final Function onSubmitted;
 
   AdaptiveTextField({
+    this.activeAdaptive = true,
     this.labelText,
     this.controller,
     this.keyboardType,
@@ -18,7 +20,7 @@ class AdaptiveTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isIOS && false
+    return Platform.isIOS && activeAdaptive
         ? CupertinoTextField(
             placeholder: labelText,
             controller: controller,
