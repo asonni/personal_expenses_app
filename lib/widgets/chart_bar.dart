@@ -5,7 +5,7 @@ class ChartBar extends StatelessWidget {
   final double spendingAmount;
   final double spendingPctOfTotal;
 
-  ChartBar(
+  const ChartBar(
     this.label,
     this.spendingAmount,
     this.spendingPctOfTotal,
@@ -36,7 +36,7 @@ class ChartBar extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey, width: 1),
-                      color: Color.fromRGBO(220, 220, 200, 1),
+                      color: const Color.fromRGBO(220, 220, 200, 1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),

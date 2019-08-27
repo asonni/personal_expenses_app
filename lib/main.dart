@@ -124,20 +124,70 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final PreferredSizeWidget appBar = Platform.isIOS
+  List<Widget> _buildLandscapeContent(
+    MediaQueryData mediaQuery,
+    AppBar appBar,
+    Widget txListWidget,
+  ) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Show Chart',
+            style: Theme.of(context).textTheme.title,
+          ),
+          Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            },
+          ),
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.7,
+              child: Chart(_recentTransactions),
+            )
+          : txListWidget
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(
+    MediaQueryData mediaQuery,
+    AppBar appBar,
+    Widget txListWidget,
+  ) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.3,
+        child: Chart(_recentTransactions),
+      ),
+      txListWidget
+    ];
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return (Platform.isIOS
         ? CupertinoNavigationBar(
-            middle: Text(
+            middle: const Text(
               'Personal Expenses',
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 GestureDetector(
-                  child: Icon(CupertinoIcons.add),
+                  child: const Icon(CupertinoIcons.add),
                   onTap: () => _startAddNewTransaction(context),
                 )
               ],
@@ -149,13 +199,20 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             actions: <Widget>[
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.add,
                 ),
                 onPressed: () => _startAddNewTransaction(context),
               ),
             ],
-          );
+          ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    final PreferredSizeWidget appBar = _buildAppBar();
     final txListWidget = Container(
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
@@ -170,43 +227,17 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Show Chart',
-                    style: Theme.of(context).textTheme.title,
-                  ),
-                  Switch.adaptive(
-                    activeColor: Theme.of(context).accentColor,
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  ),
-                ],
+              ..._buildLandscapeContent(
+                mediaQuery,
+                appBar,
+                txListWidget,
               ),
             if (!isLandscape)
-              Container(
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    0.3,
-                child: Chart(_recentTransactions),
+              ..._buildPortraitContent(
+                mediaQuery,
+                appBar,
+                txListWidget,
               ),
-            if (!isLandscape) txListWidget,
-            if (isLandscape)
-              _showChart
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.7,
-                      child: Chart(_recentTransactions),
-                    )
-                  : txListWidget
           ],
         ),
       ),
@@ -224,7 +255,7 @@ class _MyHomePageState extends State<MyHomePage> {
             floatingActionButton: Platform.isIOS
                 ? Container()
                 : FloatingActionButton(
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                     ),
                     onPressed: () => _startAddNewTransaction(context),

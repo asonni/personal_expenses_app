@@ -8,7 +8,7 @@ import '../widgets/adaptive_flat_button.dart';
 class NewTranscation extends StatefulWidget {
   final Function addTx;
 
-  NewTranscation(
+  const NewTranscation(
     this.addTx,
   );
 
@@ -103,7 +103,7 @@ class _NewTranscationState extends State<NewTranscation> {
                 ),
               ),
               RaisedButton(
-                child: Text('Add Transaction'),
+                child: const Text('Add Transaction'),
                 color: Theme.of(context).primaryColor,
                 textColor: Theme.of(context).textTheme.button.color,
                 onPressed: _submitData,

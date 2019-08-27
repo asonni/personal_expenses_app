@@ -8,7 +8,7 @@ class AdaptiveFlatButton extends StatelessWidget {
   final Color textColor;
   final Function onPressed;
 
-  AdaptiveFlatButton({
+  const AdaptiveFlatButton({
     this.child,
     this.textColor,
     this.onPressed,
